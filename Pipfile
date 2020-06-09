@@ -12,6 +12,7 @@ python-telegram-bot = "*"
 flask = "*"
 python-dotenv = "*"
 moviepy = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"

@@ -33,7 +33,7 @@ def index():
     return Response('', status=200)
 
 
-# hook endpoint
+# required hook endpoint to get the data from telegram
 @app.route('/webhook/' + BOT_TOKEN, methods=['POST', 'GET'])
 def webhook_handler():
     if request.method == "POST":
@@ -42,6 +42,9 @@ def webhook_handler():
     return Response('OK', status=200)
 
 
+# this route allows you to change the webhook dynamically without restarting
+# the application. You will just need to update the environment variables and
+# visit /set_webhook on your server application
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
     s = updater.bot.setWebhook(url=WEBHOST + '/webhook/' + BOT_TOKEN)
@@ -102,3 +105,4 @@ dispatcher.add_handler(MessageHandler(Filters.video, media_handler))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=80)
+    updater.bot.setWebhook(url=WEBHOST + '/webhook/' + BOT_TOKEN)
